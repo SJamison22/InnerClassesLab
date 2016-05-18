@@ -69,7 +69,17 @@ public class ConnectionManager {
         }
 
         public String connect(){
+            if(this.IP.equals("Connection closed")){
+                return "Connection closed";
+            } else
             return "Connected";
+        }
+
+        public void close(){
+            connectionCount--;
+            this.IP = "Connection closed";
+            this.port = 0000;
+            this.protocol = "Connection closed";
         }
     }
 }

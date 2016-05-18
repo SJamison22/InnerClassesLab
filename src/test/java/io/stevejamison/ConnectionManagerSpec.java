@@ -43,4 +43,38 @@ public class ConnectionManagerSpec {
         String actual = connect.connect();
         assertEquals("Should return Connected",expected, actual);
     }
+
+    @Test(expected = NullPointerException.class)
+    public void tooManyConnectionsTest1(){
+        ConnectionManager manager = new ConnectionManager(1);
+        Connection connect = manager.makeConnection("123.456",8899);
+        Connection connect4 = manager.makeConnection("122.333",9988);
+        connect4.connect();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void tooManyConnectionsTest2(){
+        ConnectionManager manager = new ConnectionManager(1);
+        Connection connect = manager.makeConnection("123.456",8899,"HTTP");
+        Connection connect4 = manager.makeConnection("122.333",9988,"HTTP");
+        connect4.connect();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void wrongProtocolTest(){
+        ConnectionManager manager = new ConnectionManager(1);
+        Connection connect = manager.makeConnection("123.456","HTLP");
+        Connection connect4 = manager.makeConnection("122.333","HTLP");
+        connect4.connect();
+    }
+
+    @Test
+    public void closeConnectionTest(){
+        ConnectionManager manager = new ConnectionManager(5);
+        Connection connect = manager.makeConnection("123.456",8899);
+        connect.close();
+        String expected = "Connection closed";
+        String actual = connect.connect();
+        assertEquals("Should return Connection closed",expected, actual);
+    }
 }

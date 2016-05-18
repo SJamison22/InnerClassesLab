@@ -10,4 +10,5 @@ public interface Connection {
     public String getProtocol();
 
     public String connect();
+    public void close();
 }
